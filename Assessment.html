@@ -1,0 +1,254 @@
+<DOCTYPE html>
+<html>
+<head>
+	<title> App to Calculate Distance Between Two Walls </title>
+	<style>
+
+		.divBody {
+			height: 99%;
+			width: 99%;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom:0;
+			border: 3px black solid;	
+			border-radius: 15px;
+			  -moz-border-radius: 15px;
+			  -webkit-border-radius: 15px;
+			  overflow:auto;			
+			background: -webkit-linear-gradient(#eceff1, #cfd8dc, #b0bec5, #90a4ae, #b0bec5, #cfd8dc,#eceff1); /* For Safari 5.1 to 6.0 */
+			background: -o-linear-gradient(#eceff1, #cfd8dc, #b0bec5, #90a4ae, #b0bec5, #cfd8dc,#eceff1); /* For Opera 11.1 to 12.0 */
+			background: -moz-linear-gradient(#eceff1, #cfd8dc, #b0bec5, #90a4ae, #b0bec5, #cfd8dc,#eceff1); /* For Firefox 3.6 to 15 */
+			background: linear-gradient(#eceff1, #cfd8dc, #b0bec5, #90a4ae, #b0bec5, #cfd8dc,#eceff1); /* Standard syntax (must be last) */	
+		}
+		
+		.bodyText {
+			margin: auto;
+			width: 60%;
+			text-align: center;
+			padding: 20px;
+		}
+			
+		table {
+			margin: 30 auto;
+			padding: 15px;
+		}
+		p {
+			margin: 30 auto;
+			float: center;
+			line-height: 150%;
+		}
+		
+		#scenrioText{
+			margin: 30 auto;
+			padding: 0 30px;
+			text-align: justify;
+			line-height: 150%;
+		}
+		
+		p, td{
+			font-size: 13pt;
+		}
+		
+		.border_rounded{
+			  border-radius: 15px;
+			  -moz-border-radius: 15px;
+			  -webkit-border-radius: 15px;
+			  border: 1px solid black;
+			  padding: 15px;
+		}
+			
+	</style>
+
+	<script type="text/javascript">
+	
+	//Funtion to calculate the distance, while validating user entry - avoiding blank submission
+		function calculateDistance(){ 
+
+			var firstMeeting, secondMeeting, totalDistance;
+			  firstMeeting = document.getElementById("point1").value;
+			  secondMeeting = document.getElementById("point2").value;
+			  
+			  if(firstMeeting =="" && secondMeeting == ""){
+					alert("Please enter a number");
+				}
+				else if(firstMeeting =="" || secondMeeting == ""){
+					alert("Please enter a number");
+				}
+				else if (firstMeeting < 0 && secondMeeting < 0){
+					alert("Please enter a number greater than 0");
+				}
+				else if (firstMeeting < 0 || secondMeeting < 0){
+					alert("Please enter a number greater than 0");
+				}
+				else if (firstMeeting == 0 && secondMeeting == 0){
+					alert("The distance between the walls should not be zero");
+				}
+				else if (firstMeeting < secondMeeting){
+					alert("The distance between the walls can not be negative");
+				}
+				else{
+					totalDistance = 3*firstMeeting - secondMeeting;
+
+					displayText = document.getElementById("distanceResult");
+					displayText.innerHTML = "The distance between the two walls is " + totalDistance +"."; 
+					showResult();	
+				}	
+		};
+
+		// Function to hide the paragraph for the results
+		function hideResult(){
+		document.getElementById("distanceResult").style.display = 'none';
+		}
+
+		// Function to display the paragraph for the results
+		function showResult(){
+		document.getElementById("distanceResult").style.display = 'block';
+		}
+
+		// Function to display the scenario for the application
+		function showScenario(){
+		document.getElementById("scenario").style.display = 'block';
+		}
+
+		// Function to hide the scenario for the application
+		function hideScenario(){
+		document.getElementById("scenario").style.display = 'none';
+		}
+
+		// Function to toggle the button to show/hide the scenario
+		function toggleScenario(scenarioContent, scenarioBtnId){
+			if(scenarioContent == "Display Scenario"){
+				document.getElementById("scenarioBtnId").value = "Hide Scenario";
+				showScenario();
+			}
+			else{
+				document.getElementById("scenarioBtnId").value = "Display Scenario";
+				hideScenario();	
+			}
+
+		}
+
+		// Function to validate user entry (using Regular Expression) - ensuring only numbers are entered
+		function numbersOnly(checkInput){
+			var regex = /[^0-9]/;
+			if(checkInput.value.match(regex)){
+				alert("Please enter a number");
+			}
+		}
+	</script>
+</head>
+<body onload="hideScenario()">
+	<form action="#">	
+		<div class = "divBody">	
+			<div class = "bodyText">
+				<h2> DISTANCE CALCULATOR</h2> <hr width=35% ></hr>
+					<p> This application is used to calculate the distance between two walls. 
+					<br /> You can click the button below to see a scenario. <br /> </p>
+				<input type="button" value="Display Scenario" onclick="toggleScenario(this.value, this.id)" id="scenarioBtnId" />
+					<div id = "scenario">
+						<h3><i><u> Scenario  </u></i></h3>
+							<p id="scenrioText">Two motorcycles are at the two ends of a road right next to a wall
+							 behind them (walls and road are perpendicular). <br />They start heading towards one 
+							 another in the opposite directions on two straight and parallel lines. Each vehicle 
+							 has a constant velocity but one is faster. They pass each other at a point 
+							 <b><i>X meters from the closest wall(first meeting point).</i></b> 
+							They go on to the opposite wall, rest for t minutes (resting time), and return towards their home wall. 
+							This time, they meet at a point <b><i>Y meters from the closest wall (second meeting point).</i></b> 
+							<br /><b>How long is the road, i.e. the distance between two walls? </b></p>
+					</div>
+				<table class = "border_rounded">
+					<tr>
+						<td> Enter value of 1st meeting point:</td>
+						<td> <input id="point1" type="number" onkeyup="numbersOnly(point2)" min=0 /> meters</td> 
+					</tr>
+					<tr>
+						<td>  Enter value of 2nd meeting point: </td>
+						<td>  <input id="point2" type="number" onkeyup="numbersOnly(point2)" min=0 /> meters</td> 
+					</tr>
+					<tr>
+						<td>  Enter value of resting time: </td>
+						<td>  <input id="restingTime" type="number" onkeyup="numbersOnly(point2)" min=0 /> minutes</td> 
+					</tr>
+					<tr>		
+						<td colspan="2" float="right">  <input type="button" value="Calculate Distance" onclick="calculateDistance()" />
+						 <input type="reset" value="Reset" onclick="hideResult()"></td>				
+					</tr>
+					<tr>
+						<td colspan="2">  <p id="distanceResult" style = "text-align:justify">   </p> </td>
+					</tr>
+				</table> 
+			<br />  
+		  </div>
+		</div>
+	</form>
+</body>
+</html>
+
+
+ <!------------------------------------------  SOLUTION TO PROBLEM  ------------------------------------------
+ 
+  
+	|--Wall 																											    Wall--|																						
+	|																															  |
+	|																															  |
+	|																															  |  
+	|																															  |
+	|																															  |
+	|																															  |
+	|																															  |
+	|																															  |
+	|																															  |
+	|																															  |
+	|																															  |
+	||---------------|																							|----------------|| 
+	|| MOTORCYCLE 1  |																					 	 	|  MOTORCYCLE 2  ||
+	|----------------|																							|----------------||
+	|___________________________________|_________________________________________________________|_______________________________|
+		V1 (slower)			            X						ROAD							  Y					V2(faster)
+	
+	
+ 
+ 
+ - There are 2 motorcycles: M1 and M2
+ - Constant velocity for both M1 and M2, but one is faster. Here, M2 is considered faster
+ - Assume they start  start heading, each other at the same time.
+ - Since their velocity is constant, they take the same time to meet at point X. 
+   Likewise, they'll take the same time to meet at point Y.
+   Relationship between distance, velocity and time is:
+	
+	Velocity (V) = Distance (L) / Time (t)
+	
+   => Time = Distance / Velocity
+   Since they take the same time to meet at a point, the formula will be:
+   
+	X/V1 = (L-X)V2                          -------------- time to reach point X: eqn 1
+	L/V1 + t + Y/V1 = L/V2 + t + (L-Y)/V2  ---------------  time to reach point y: eqn 2
+ 
+	eqn 1:     V2 * X = V1(L-X)  =>  V2 = V1/X * (L-X)
+	eqn 2:     (L+Y)/V1 = (L+L-Y)/V2  
+	   =>  	   (L+Y)/V1 = (2L-Y)/V2  
+	   =>  	    V2(L+Y) = V1(2L-Y)
+	   
+	   Substituting V2 from eqn 1 into eqn 2
+				V1/X * (L-X)*(L+Y) = V1(2L-Y)
+		=> 		(L-X)*(L+Y) = X(2L-Y)
+		=> 		 L*L - LX + LY - XY = 2LX-XY
+		=> 		 L*L- LX + LY -2LX = XY-XY
+		=> 		 L*L- + LY -3LX = 0
+		using the quadratic formula:
+		
+			
+		L = [ -b + or -  squareroot(b*b - 4ac)] / 2a
+		
+		L = [ -(Y -3X) + or - squareroot((Y -3X)*(Y -3X) - 4(1)(0))] / 2(1)
+		L = [ 3X-Y + or - squareroot((Y -3X)*(Y -3X)] / 2
+		L = [ 3X-Y + or - (Y -3X)] / 2
+		L = [ 3X-Y + Y -3X)] / 2  OR  [ 3X-Y - Y +3X)] / 2
+		L = 0  OR  [6X - 2Y] / 2
+ 		L = 3X - Y
+		
+		Note: L = 0 is rejected because the distance between the 2 walls can not be zero 
+		if the motorcycles have to move from one end of the wall to another.
+ 
+ -->
